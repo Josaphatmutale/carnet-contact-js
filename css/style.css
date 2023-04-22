@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700&display=swap');
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+body
+{
+ font-family: 'Montserrat', sans-serif;
+}
+
+:root {
+    --couleur-blanche: white;
+    --bouton-edit:#979797;
+    --couleur-de-paragraphe:#747474;
+    --champs-et-bordures:#D8D8D8;
+    --couleur-de-la-poubelle:red;
+    --couleur-bleue:#009bff;
+}
+
+header
+{
+    display: flex; 
+    align-items: center;
+    margin: 30px 160px;
+    gap: 60px;
+    flex-direction: row;
+}
+
+header h1
+{
+    padding-left: 10px;  
+}
+
+
+form #btn-contact
+{ 
+ background-color: var(--couleur-bleue);
+ color: var(--couleur-blanche);
+ border: none;
+ border-radius: 10px;
+ height: 35px;
+ width: 135px;
+ font-weight: bold;
+ font-size: 17px;
+}
+
+main
+{
+    display: flex;
+    margin: 60px 170px;
+    justify-content: space-between;
+}
+
+.section-gauche .message
+{
+    
+    font-size: 25px;
+    color:var(--couleur-de-paragraphe);
+    margin: 0;
+    text-align: none;
+    padding-right: 110px;
+}
+
+.division-form{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 35px;
+    padding: 15px 0;
+}
+
+.division-form input
+{
+    border: 1px var(--champs-et-bordures) solid;
+    border-radius: 5px ;
+    height: 25px;
+    width: 155px;
+    cursor: pointer;
+    margin: 5px 0;
+}
+
+.division-form select{
+    border: 1px var(--champs-et-bordures) solid;
+    border-radius: 5px ;
+    height: 25px;
+    width: 157px;
+    cursor: pointer;
+    margin: 5px 0;
+    color: var(--bouton-edit) ;
+}
+
+.division-form #btn-ajout-contact{
+    border: 0;
+    border-radius: 5px ;
+    height: 28px;
+    width: 195px;
+    cursor: pointer;
+    margin: 5px 0;
+    color: var(--couleur-blanche) ;
+    background-color: var(--couleur-bleue);
+}
+
+
+.division-form #btn-annuler{
+    border: 0;
+    border-radius: 5px ;
+    height: 28px;
+    width: 133px;
+    cursor: pointer;
+    margin: 5px 0;
+    color: var(--couleur-blanche) ;
+    background-color: var(--bouton-edit);
+    margin-left: 20px;
+}
+
+.section-droite h2{
+ padding: 20px 0;
+}
+
+.section-droite 
+{
+    padding-right: 110px;
+}
+
+hr
+{
+    margin-left: 60px;
+}
+
+#user-picture {
+    outline: none;
+    background-color: var(--couleur-bleue);
+    padding: 5px 15px; 
+    cursor: pointer;   
+    border-radius: 5px ;
+    height: 15px;
+    width: 125px;
+    color:var(--couleur-blanche);  
+    border: none;
+}
+
+/* #icon-picture
+{
+   overflow: hidden;
+   height: 15px;
+   width: 25px;
+   padding: 10px 10px;
+} */
+
+::-webkit-file-upload-button{
+  border: none;
+  display: none;
+  outline: none;
+}
+
+::-webkit-file-upload-button:active{
+    color: pink;
+    background-color: white;
+}
+
+/* .section-gauche
+{
+    display: flex;
+    
+} */
+
+
+
+
+#poubelle {
+    background-color: var(--couleur-de-la-poubelle);
+    border-radius: 10px;
+    height: 15px;
+    width: 25px;
+    padding: 10px 10px;
+}
+
+/* 
+#btn-pencil,
+#btn-poubelle{
+    border: none;
+    overflow: hidden;
+} */
+
+
+
+
+
+
