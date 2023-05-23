@@ -1,21 +1,42 @@
  let boutonAdd = document.getElementById('btn-add');
  let listView = document.querySelector('.contact-list');
  let form = document.getElementById('form');
- let btnCancel = document.getElementById('btn-cancel')
+ let formTitle = document.getElementById('form-title');
+ let btnCancelForm = document.getElementById('btn-cancel');
+ let btnSubmit = document.getElementById('btn-submit')
+//  datas
  let contacts = [];
+
+//  mode
+
+let editionMode = false;
+let contactTemp = {};
+
+
  boutonAdd.addEventListener('click', (e) => {
   boutonAdd.classList.toggle('d-none');
   form.classList.toggle('d-none');
  })
 
- btnCancel.addEventListener('click', (e) => {
+ btnCancelForm.addEventListener('click', (e) => {
+    // toggle visibility
     boutonAdd.classList.toggle('d-none');
-  form.classList.toggle('d-none');
+   form.classList.toggle('d-none');
  })
 
+
+// add action !
  form.addEventListener('submit', (e) => {
      e.preventDefault();
+
+     
      let data = new FormData(e.target);
+
+     let timestamp = Date.parse(data.get('birthday'));
+     let dateBirth = new Date(timestamp);
+
+
+
      let contact = {
         'nom' : data.get('nom'),
         'prenom' : data.get('prenom'),
@@ -24,45 +45,102 @@
         'email' : data.get('email'),
         'phone' : data.get('phone'),
         'birthday' : data.get('birthday'),
-        'age': new Date().getFullYear() - (Date.parse(data.get('birthday')).getFullYear)
-        // 'profil' : data.get('profil'),
+        'age': (new Date().getFullYear()) - (dateBirth.getFullYear()),
+        'profil': URL.createObjectURL(data.get('profil')),
     }
 
-    contacts.push(contact);
+    if(editionMode){
+        // mise à jour
+        let index = contactTemp.index;
+       // remplace
+       contacts.splice(index, 1,contact) 
+    } else{
+        contacts.push(contact);
+    }
+    
     renderListView()
- })
+    e.target.reset();
+    form.classList.toggle('d-none');
+})
 
-// Afiicher la liste  
+
+  // Afiicher la liste  
  function renderListView() {
     listView.innerHTML = ''
+    let emptyList = `<div class="text-center py-5">
+    <i class="bi bi-emoji-frown fs-1"></i>
+    <p>Aucun contact dans la liste</p>
+ </div>   
+      `
+     
 
-    for (const contact of contacts) {
-         let temp = `<div class="contact-item d-flex ">
-            <div class="profil">
-               <img src="img/avatar.png" alt="" width="100px" class="img-fluid rounded-circle bg-dark">
+      if(contacts.length == 0){
+        listView.innerHTML = emptyList;
+      }
+
+
+    for (let index = 0; index < contacts.length; index++){
+         let temp = `<div class="contact-item d-flex cursor-pointer" onclick ="showMore(this)">
+            <div class="profile">
+               <img src="${contacts[index].profil}"  alt="" width="100px" class="img-fluid rounded-circle bg-dark">
             </div>
             <div class="info flex-grow-1 ms-3">
-                <h2 class="contact-name">${contact.nom + contact.prenom}</h2>
-                <p class="m-0">${contact.pays}</p>
-                <p class="m-0">${contact.phone}</p>
-                <p class="m-0">${contact.email}</p>
-                <p class="m-0">${contact.genre} <span>${contact.age} ans</span></p>
+                <h2 class="h4 contact-name">${contacts[index].nom} ${contacts[index].prenom}</h2>
+                <p class="m-0">${contacts[index].pays}</p>
+                <p class="m-0">${contacts[index].phone}</p>
+                <p class="m-0 more  d-one ">${contacts[index].email}</p>
+                <p class="m-0">${contacts[index].genre} <span>(${contacts[index].age} ans)</span></p>
             </div>
             <div class="actions">
-                <button class="btn btn-secondary">
-                <i class="bi bi-pencil-square"></i>
-            </button>
-            <button class="btn btn-danger">
-                <i class="bi bi-trash"></i>
-            </button>
-         </div>
+                <button class="btn btn-secondary" onclick="editContact(${index})">
+                   <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-danger" onclick="removeContact(${index})">
+                   <i class="bi bi-trash"></i>
+                </button>
+            </div>
        </div>
          `
             
-         listView.innerHTML += temp
-
-
+         listView.innerHTML += temp;
     }
+
+
+
+
 }
 
-renderListView()
+function deleteContact(index){
+    contacts.splice(index, 1)
+    renderListView();
+}
+
+function editContact(index){
+    let contact = contacts[index];
+    editionMode = true;
+    contactTemp = {...contacts, index}
+    form.classList.toggle('d-none');
+    formTitle.innerHTML = 'Modifier un contact'
+    boutonAdd.innerHTML = "Modifier"
+    // remplir le formulaire
+    fillFormData(contactTemp);
+}
+
+function showMore(e) {
+  let mores = e.getElementsByClassName('more');
+  for(const m of mores) {
+    m.classList.toggle('d-none')
+  }
+}
+
+function fillFormData(data){
+    document.getElementById('nom').value = data.nom
+    document.getElementById('prenom').value = data.prenom
+    document.getElementById('pays').value = data.pays
+    document.getElementById('genre').value = data.genre
+    document.getElementById('email').value = data.email
+    document.getElementById('phone').value = data.phone
+    document.getElementById('birthday').value = data.birthday
+}
+
+ renderListView();
